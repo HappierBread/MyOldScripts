@@ -1,0 +1,220 @@
+-- Gui to Lua
+-- Version: 3.2
+
+-- Instances:
+
+local ScreenGui = Instance.new("ScreenGui")
+local main = Instance.new("Frame")
+local TextLabel = Instance.new("TextLabel")
+local Skywarsautofarm = Instance.new("TextButton")
+local Admin = Instance.new("TextButton")
+local UnlimitedReach = Instance.new("TextButton")
+
+--Properties:
+
+ScreenGui.Parent = game.CoreGui
+
+main.Name = "main"
+main.Parent = ScreenGui
+main.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+main.Position = UDim2.new(0.574259043, 0, 0.494016707, 0)
+main.Size = UDim2.new(0, 485, 0, 291)
+main.Active = true
+main.Draggable = true
+
+TextLabel.Parent = main
+TextLabel.BackgroundColor3 = Color3.fromRGB(255, 170, 0)
+TextLabel.Size = UDim2.new(0, 485, 0, 50)
+TextLabel.Font = Enum.Font.SourceSansBold
+TextLabel.Text = "Pop HUB"
+TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel.TextScaled = true
+TextLabel.TextSize = 14.000
+TextLabel.TextWrapped = true
+
+Skywarsautofarm.Name = "Skywars autofarm"
+Skywarsautofarm.Parent = main
+Skywarsautofarm.BackgroundColor3 = Color3.fromRGB(255, 170, 0)
+Skywarsautofarm.Position = UDim2.new(0.0536082461, 0, 0.391752571, 0)
+Skywarsautofarm.Size = UDim2.new(0, 126, 0, 107)
+Skywarsautofarm.Font = Enum.Font.SourceSansBold
+Skywarsautofarm.Text = "Skywars Autofarm"
+Skywarsautofarm.TextColor3 = Color3.fromRGB(0, 0, 0)
+Skywarsautofarm.TextScaled = true
+Skywarsautofarm.TextSize = 14.000
+Skywarsautofarm.TextWrapped = true
+Skywarsautofarm.MouseButton1Down:connect(function()
+	local cpos = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+
+	local stuff = workspace:getDescendants()
+	for i=1,#stuff do
+		if stuff[i].Name == "Block" and stuff[i].Parent.Name == "Ores" then
+			repeat
+				wait()
+				game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = stuff[i].CFrame
+				game.Players.LocalPlayer.Character.Axe.RemoteEvent:FireServer(stuff[i])
+			until stuff[i].Name ~= "Block" or not game.Players.LocalPlayer.Character:findFirstChild("Axe")
+		end
+	end
+
+	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = cpos
+end)
+
+Admin.Name = "Admin"
+Admin.Parent = main
+Admin.BackgroundColor3 = Color3.fromRGB(255, 170, 0)
+Admin.Position = UDim2.new(0.354639173, 0, 0.391752571, 0)
+Admin.Size = UDim2.new(0, 128, 0, 107)
+Admin.Font = Enum.Font.SourceSansBold
+Admin.Text = "Admin Commands"
+Admin.TextColor3 = Color3.fromRGB(0, 0, 0)
+Admin.TextScaled = true
+Admin.TextSize = 14.000
+Admin.TextWrapped = true
+Admin.MouseButton1Down:connect(function()
+	loadstring(game:HttpGet(('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'),true))()
+end)
+
+UnlimitedReach.Name = "Unlimited Reach"
+UnlimitedReach.Parent = main
+UnlimitedReach.BackgroundColor3 = Color3.fromRGB(255, 170, 0)
+UnlimitedReach.Position = UDim2.new(0.672164977, 0, 0.391752571, 0)
+UnlimitedReach.Size = UDim2.new(0, 119, 0, 107)
+UnlimitedReach.Font = Enum.Font.SourceSansBold
+UnlimitedReach.Text = "Unlimited Reach"
+UnlimitedReach.TextColor3 = Color3.fromRGB(0, 0, 0)
+UnlimitedReach.TextScaled = true
+UnlimitedReach.TextSize = 14.000
+UnlimitedReach.TextWrapped = true
+UnlimitedReach.MouseButton1Down:connect(function()
+	mt = getrawmetatable(game)
+	oldIndex = mt.__index 
+	setreadonly(mt, false)
+
+
+	mt.__index = function(a,b)
+		if a == "Weld" or b == "Weld" then 
+			return "Part"
+		end
+		return oldIndex(a,b)
+	end
+
+
+
+
+
+
+	local Player = game.Players.LocalPlayer
+	local Char = Player.Character
+	local KeyBindHigh = "q"
+	local IncreaseAmmount = 1 
+	local KeyBindLow = "e"
+	local settings = {repeatamount = 2} -- Best to keep it at 2 so it doesnt cause lag or FPS drops
+	_G.Dist = 5
+	_G.SphereActivated = true --// If set to true it'll 
+	setsimulationradius(math.huge,math.huge)
+
+
+
+
+	game:GetService("RunService").Stepped:Connect(function()
+		local Player = game.Players.LocalPlayer
+		local Char = Player.Character
+		pcall(function()
+			for i,v in pairs(game.Players:GetPlayers()) do 
+				if v ~= Player then 
+					if v.Character.Humanoid.Health ~= 0 then 
+						if (v.Character.HumanoidRootPart.Position - Char.HumanoidRootPart.Position).Magnitude <= _G.Dist then 
+							for _,x in pairs(v.Character:GetChildren()) do 
+								if x:IsA("Part") then 
+									for i = 1,settings.repeatamount do 
+										firetouchinterest(Char:FindFirstChildOfClass("Tool").Handle, x, 0)
+										firetouchinterest(Char:FindFirstChildOfClass("Tool").Handle, x, 1)
+									end
+								end
+							end
+						end
+					end
+				end
+			end
+		end)
+	end)
+
+
+
+
+
+
+	Player:GetMouse().KeyDown:Connect(function(Key)
+		if Key == KeyBindHigh then 
+			_G.Dist = _G.Dist + IncreaseAmmount
+			game.StarterGui:SetCore("SendNotification", {
+				Title = "Project Serpent";
+				Text = "Serpent set to " .. _G.Dist;
+				Icon = "";
+				Duration = 1;})
+		end
+		if Key == KeyBindLow then 
+			_G.Dist = _G.Dist - IncreaseAmmount
+			game.StarterGui:SetCore("SendNotification", {
+				Title = "Project Serpent";
+				Text = "Serpent set to " .. _G.Dist;
+				Icon = "";
+				Duration = 1;})
+		end
+	end)
+
+
+
+
+
+
+	if _G.SphereActivated then
+		function Update()
+			game.Players.LocalPlayer.Character.ChildAdded:Connect(function(tool)
+				if tool:FindFirstChild("Handle") then
+					Part = Instance.new("Part")
+					Weld = Instance.new("Weld", workspace)
+					Part.Parent = workspace
+					Part.Transparency = 1 
+					Part.CanCollide = false
+					Sphere = Instance.new("SelectionSphere",game:GetService("CoreGui").RobloxGui.Modules)
+					Sphere.Transparency = 1 
+					Sphere.Name = "Sphere"
+					Sphere.SurfaceTransparency = .5
+					Sphere.Adornee = Part 
+					Part.Massless = true
+					Part.Position = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool").Handle.Position
+					Weld.Part0 = Part 
+					Weld.Part1 = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool").Handle
+					game:GetService("RunService").Stepped:Connect(function()
+						Part.Size = Vector3.new(_G.Dist,_G.Dist,_G.Dist)
+					end)
+				end
+			end)
+		end
+		function UnEquip()
+			game.Players.LocalPlayer.Character.ChildRemoved:Connect(function(int)
+				if int:FindFirstChild("Handle") then
+					for i,v in pairs(game:GetService("CoreGui").RobloxGui.Modules:GetDescendants()) do 
+						if v.Name == 'Sphere' then
+							v:Destroy()
+						end
+					end
+				end
+			end)
+		end
+
+
+
+
+
+
+		Update()
+		UnEquip()
+
+
+		game.Players.LocalPlayer.CharacterAdded:Connect(Update)
+		game.Players.LocalPlayer.CharacterAdded:Connect(UnEquip)    
+	end
+end)
